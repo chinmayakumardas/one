@@ -106,6 +106,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -119,15 +120,28 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({ children }) {
   const router = useRouter();
+  const [isDashboardRoute, setIsDashboardRoute] = useState(false);
+  // useEffect(() => {
+  //   const checkDashboardRoute = (pathname) => {
+  //     return pathname='/admin/dashboard';
+  //   };
 
+  //   setIsDashboardRoute(checkDashboardRoute(router.pathname));
+  // }, [router.pathname]);
+  useEffect(() => {
+    const checkDashboardRoute = (pathname) => {
+      return pathname = '/admin/dashboard'; // Adjust to match your dashboard route
+    };
 
+    setIsDashboardRoute(checkDashboardRoute(router.pathname));
+  }, [router.pathname]);
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Provider store={store}>
-         
+          {!isDashboardRoute ? (
             <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
-              <header className="p-6 bg-white text-black flex items-center justify-between shadow-md">
+              <header className="p-4 bg-white text-black flex items-center justify-between shadow-md">
                 <div className="flex items-center justify-between gap-5">
                   {/* Company Logo */}
                   <Link href="/">
@@ -183,138 +197,14 @@ export default function RootLayout({ children }) {
                 © 2025 AAS One
               </footer>
             </div>
-          
+          ) : (
+            // Render only the dashboard content
+            <div className="min-h-screen w-full flex items-center justify-center">
+              {children}
+            </div>
+          )}
         </Provider>
       </body>
     </html>
   );
 }
-
-
-
-
-// 'use client';
-// import { Provider } from 'react-redux';
-// import store from '../redux/store'; // Adjust the path if necessary
-// import { Geist, Geist_Mono } from 'next/font/google';
-// import './globals.css';
-// import Link from 'next/link';
-// import LanguageIcon from '@mui/icons-material/Language';
-// import MenuIcon from '@mui/icons-material/Menu';
-// import SearchIcon from '@mui/icons-material/Search';
-// import { useRouter } from 'next/navigation';
-
-// const geistSans = Geist({
-//   variable: '--font-geist-sans',
-//   subsets: ['latin'],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: '--font-geist-mono',
-//   subsets: ['latin'],
-// });
-
-// export default function RootLayout({ children }) {
-
-//   const router = useRouter();
-//   const isDashboardRoute = router.pathname=='/admin'; // Adjust as necessary
-//     // Define links for non-dashboard routes
-//     const mainLinks = [
-//       { href: '/insights', label: 'Insights' },
-//       { href: '/services', label: 'Services' },
-//       { href: '/case-studies', label: 'Case Studies' },
-//       { href: '/career', label: 'Careers' },
-//       { href: '/blog', label: 'Blog' },
-//       { href: '/about', label: 'About us' },
-//       { href: '/contact', label: 'Contact' },
-//     ];
-  
-//     // Define links for dashboard routes
-//     const dashboardLinks = [
-//       { href: '/dashboard', label: 'Dashboard' },
-//       { href: '/settings', label: 'Settings' },
-//       { href: '/profile', label: 'Profile' },
-//       // Add more dashboard-specific links as needed
-//     ];
-  
-//     // Choose the appropriate links based on the route
-//     const linksToRender = isDashboardRoute ? dashboardLinks : mainLinks;
-  
-//    // Function to handle login button click
-//    const handleLoginClick = () => {
-//     router.push('/admin'); // Navigate to the /admin route
-//   };
-//   return (
-//     <html lang="en">
-//       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-//         <Provider store={store}>
-//           <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
-//             {/* Show header only if not on the dashboard route */}
-//             {!isDashboardRoute && (
-//               <header className="p-4 bg-white text-black flex items-center justify-between shadow-md">
-//                 <div className="flex items-center justify-between gap-5">
-//                   <Link href="/">
-//                     <img
-//                       src="https://static.wixstatic.com/media/cf83c9_72a1f255167a4937ab112637b060a6d4~mv2.png/v1/crop/x_32,y_0,w_320,h_300/fill/w_89,h_84,fp_0.50_0.50,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/cf83c9_72a1f255167a4937ab112637b060a6d4~mv2.png"
-//                       alt="Company Logo"
-//                       className="h-8 mr-4"
-//                     />
-//                   </Link>
-//                   <nav>
-//                     {/* <ul className="flex gap-4">
-//                       {[
-//                         { href: '/insights', label: 'Insights' },
-//                         { href: '/services', label: 'Services' },
-//                         { href: '/case-studies', label: 'Case Studies' },
-//                         { href: '/career', label: 'Careers' },
-//                         { href: '/blog', label: 'Blog' },
-//                         { href: '/about', label: 'About us' },
-//                         { href: '/contact', label: 'Contact' },
-                        
-//                       ].map(({ href, label }) => (
-//                         <li key={href}>
-//                           <Link href={href} className={router.pathname === href ? 'text-gold' : 'text-black'}>
-//                             {label}
-//                           </Link>
-//                         </li>
-//                       ))}
-//                     </ul> */}
-                    
-//                   </nav>
-//                 </div>
-//                 <div className="flex items-center gap-6">
-//                   <div className="cursor-pointer">
-//                   <button onClick={handleLoginClick} className="text-black">
-//                           Login
-//                         </button>
-//                   </div>
-//                   <div className="cursor-pointer">
-//                     <SearchIcon className="text-black" />
-//                   </div>
-//                   <div className="relative">
-//                     <button className="text-black flex items-center">
-//                       <LanguageIcon />
-//                       <span className="ml-1">Language</span>
-//                     </button>
-//                   </div>
-//                   <div className="cursor-pointer">
-//                     <MenuIcon className="text-black" />
-//                   </div>
-//                 </div>
-//               </header>
-//             )}
-
-//             <main className="flex flex-col items-center justify-center">
-//               {children}
-//             </main>
-
-//             {/* Show footer only if on the dashboard route */}
-//             <footer className={`p-4 bg-gray-800 text-white text-center `}>
-//               © 2025 AAS One
-//             </footer>
-//           </div>
-//         </Provider>
-//       </body>
-//     </html>
-//   );
-// }

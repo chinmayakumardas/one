@@ -16,5 +16,7 @@ body::-webkit-scrollbar {
   width: 0; /* Hide scrollbar width for Chrome, Safari, and Opera */
   
 }
-
+.text-gold:active {
+  color: gold; /* or your desired gold color */
+}
 
