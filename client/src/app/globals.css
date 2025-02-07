@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-y: scroll; /* Ensure vertical scrolling is possible */
+  scrollbar-width: 0; /* Make scrollbar thinner for Firefox */
+}
+
+body::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar width for Chrome, Safari, and Opera */
+  
+}
+
+
